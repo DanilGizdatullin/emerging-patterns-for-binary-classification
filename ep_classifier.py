@@ -1,5 +1,7 @@
 import csv
 
+INFINITY = 100
+
 coding_dic = {'work': 1,
               'separation': 2,
               'partner': 3,
@@ -133,7 +135,7 @@ def growth_rate(rule, dataset1, dataset2):
     if (support_dataset1 == 0) & (support_dataset2 == 0):
         return 0
     elif (support_dataset1 != 0) & (support_dataset2 == 0):
-        return 100
+        return INFINITY
     else:
         return support_dataset1 / support_dataset2
 
@@ -152,7 +154,7 @@ def dict_of_contributions(rules, dataset1, dataset2, threshold):
         gr_ra1 = growth_rate(dict_of_rules[key], dataset1, dataset2)
 
         if gr_ra1 > threshold:
-            if gr_ra1 == 100:
+            if gr_ra1 == INFINITY:
                 dict_of_contributions_to_score_class1[key] = support(dict_of_rules[key], dataset1)
             else:
                 dict_of_contributions_to_score_class1[key] = (gr_ra1/(1+gr_ra1)) * support(dict_of_rules[key], dataset1)
@@ -208,6 +210,6 @@ def classify_one_object(object_to_classification, dic1, dic_rules1, dic2, dic_ru
     if (score_for_class1 == score_for_class2) and (score_for_class1 == 0):
         return -1
     elif score_for_class1 >= score_for_class2:
-        return 1
-    else:
         return 0
+    else:
+        return 1
